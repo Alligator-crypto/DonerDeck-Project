@@ -1055,6 +1055,9 @@
 
         <!-- Main Content Area -->
         <main class="main-content">
+            <div style="background: rgba(230, 37, 52, 0.15); border-bottom: 1px solid rgba(230, 37, 52, 0.3); color: var(--text-main); text-align: center; padding: 10px; font-size: 0.85rem; font-weight: 600;">
+                ⚠️ DEMO MODE - All data is saved only in your browser (localStorage). It will not appear on other devices.
+            </div>
             <header class="top-header">
                 <div class="header-titles">
                     <h1 id="page-title">DASHBOARD</h1>
@@ -1739,12 +1742,50 @@
 
         // Init App
         try {
+            if (AppState.donors.length === 0 && AppState.recipients.length === 0) {
+                if (!localStorage.getItem('donorDeck_demo_initialized')) {
+                    AppState.donors = [
+                        { name: "Ahmed Khan", age: "28", contact: "03001234567", blood: "O+", quantity: "450", date: new Date().toISOString() },
+                        { name: "Fatima Ali", age: "24", contact: "03009876543", blood: "A-", quantity: "350", date: new Date().toISOString() },
+                        { name: "Bilal Ahmed", age: "35", contact: "03111223344", blood: "B+", quantity: "500", date: new Date().toISOString() },
+                        { name: "Sara Khan", age: "22", contact: "03334567890", blood: "AB+", quantity: "400", date: new Date().toISOString() },
+                        { name: "Usman Malik", age: "29", contact: "03005556677", blood: "O-", quantity: "450", date: new Date().toISOString() },
+                        { name: "Ayesha Noor", age: "26", contact: "03456789012", blood: "A+", quantity: "380", date: new Date().toISOString() },
+                        { name: "Hassan Raza", age: "31", contact: "03219876543", blood: "B-", quantity: "420", date: new Date().toISOString() },
+                        { name: "Maryam Siddiqui", age: "27", contact: "03098765432", blood: "O+", quantity: "460", date: new Date().toISOString() },
+                        { name: "Zain Abbas", age: "33", contact: "03123456789", blood: "AB-", quantity: "390", date: new Date().toISOString() },
+                        { name: "Hira Khan", age: "25", contact: "03335678901", blood: "A+", quantity: "430", date: new Date().toISOString() }
+                    ];
+
+                    AppState.recipients = [
+                        { name: "Ali Hassan", age: "45", contact: "03007654321", blood: "O-", urgency: "5", date: new Date().toISOString() },
+                        { name: "Bushra Ahmed", age: "19", contact: "03114567890", blood: "A+", urgency: "4", date: new Date().toISOString() },
+                        { name: "Fahad Malik", age: "38", contact: "03023456789", blood: "B+", urgency: "3", date: new Date().toISOString() },
+                        { name: "Sana Raza", age: "28", contact: "03336789012", blood: "AB+", urgency: "4", date: new Date().toISOString() },
+                        { name: "Imran Khan", age: "52", contact: "03451234567", blood: "O+", urgency: "5", date: new Date().toISOString() },
+                        { name: "Nimra Javed", age: "23", contact: "03098765432", blood: "A-", urgency: "1", date: new Date().toISOString() },
+                        { name: "Omar Farooq", age: "41", contact: "03117654321", blood: "B-", urgency: "4", date: new Date().toISOString() },
+                        { name: "Rabia Sultan", age: "30", contact: "03219876543", blood: "O+", urgency: "3", date: new Date().toISOString() },
+                        { name: "Danish Iqbal", age: "35", contact: "03334567890", blood: "AB-", urgency: "5", date: new Date().toISOString() },
+                        { name: "Laiba Shah", age: "24", contact: "03005556677", blood: "A+", urgency: "4", date: new Date().toISOString() }
+                    ];
+
+                    AppState.transactions = AppState.donors.map(d => ({
+                        type: 'Donation', name: d.name, blood: d.blood, quantity: d.quantity, date: d.date
+                    }));
+
+                    localStorage.setItem('donorDeck_demo_initialized', 'true');
+                    AppState.save();
+                }
+            }
+
             updateUIStats();
             Router.navigate('dashboard', 'DASHBOARD', 'Emergency blood bank overview');
         } catch (e) {
             console.error("Initialization error:", e);
         }
     </script>
+    <div style="position: fixed; bottom: 15px; right: 20px; font-size: 0.75rem; color: rgba(255,255,255,0.4); z-index: 9999; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; pointer-events: none;">Demo Version</div>
 </body>
 
 </html>
